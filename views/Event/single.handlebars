@@ -1,0 +1,22 @@
+<article class="event">
+  <h1>Title: {{ event.title }}</h1>
+  <h4>Id: {{ event.id }}</h4>
+  <h4>Description:</h4>
+  <p>  {{ event.description }}</p>
+  <h4>StartTime: </h4>
+  <p>  {{ event.startTime }}</p> 
+
+  <h4>Location: </h4>
+  <a href="/locations/{{event.locationid}}">{{event.locationname}}</a>
+
+  {{#if event.attendees.length}}
+    <h3>Attendees: </h3>
+    <ul>
+      {{#each event.attendees}}
+        <li><a class ="peoplelistinevent" href="/people/{{this.id}}">{{this.name}}</a></li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+  <a href="http://35.160.217.149:3000/events">Go Back To Event List</a>
+</article>

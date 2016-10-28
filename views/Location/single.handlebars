@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+  </head>
+<body>
+<article class="location">
+  <h1>Name: {{ location.name }}</h1>
+  <h2>Location: {{ location.location }}</h1>
+  <h2>Id: {{ location.id }}</h1>
+  <h3 id = "maptitle">Map:</h3>
+  <div id="map"></div>
+  <script>
+
+  let locations = [
+    {lat:42.6892775,lng:-73.84836},
+    {lat:40.7455189,lng:-74.0247733},
+    {lat:40.7455189,lng:-74.0247733},
+    {lat:40.7455189,lng:-74.0247733},
+    {lat:40.7455189,lng:-74.0247733},
+    {lat:40.7455189,lng:-74.0247733},
+    {lat:40.7455189,lng:-74.0247733}
+  ]
+
+  function initmap () {
+    console.log('initmap is called');
+    var uluru = {lat: 42.6848566, lng: -73.8405163};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 16,
+          center: uluru
+        });
+        let strname = "{{location.name}}";
+        let strlocation = "{{location.location}}"
+        var address = strname.concat(",",strlocation);
+ //       address = "Crossgates Mall, 1 Crossgates Mall Rd., Space E-111, Albany, NY 12203, US";
+
+        console.log('address is '+ address);
+        console.log('typeof address is'+ typeof(address));
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === 'OK') {
+            console.log('status is OK')
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location
+            });
+          } else {
+            let mapdiv = document.getElementById("map");
+            mapdiv.style.visibility = "hidden";
+            let map_title =  document.getElementById("maptitle");
+            map_title.textContent = "Googlemap said he cannt find this location";
+
+          }
+        });
+
+
+
+        // var marker = new google.maps.Marker({
+        //   position: uluru,
+        //   map: map
+        // });
+    // body... 
+  }
+
+  </script>
+
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSdltiyV-3TaDWKFjnbmjr0Ke2HBR_1ns&callback=initmap">
+    </script>
+
+  {{#if location.events.length}}
+    <h3>Events: </h3>
+    <ul>
+      {{#each location.events}}
+        <li><a class="eventlistinlocation" href="/events/{{this.id}}">{{this.title}}</a></li>
+      {{/each}}
+    </ul>
+  {{/if}}
+    <a href="http://35.160.217.149:3000/locations">Go Back To Location List</a>
+
+</article>
+</body>
+</html>

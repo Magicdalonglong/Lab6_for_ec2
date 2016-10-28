@@ -1,0 +1,15 @@
+<article class="people">
+  <h1>Name: {{ people.name }}</h1>
+  <h3>Id: {{ people.id }}</h3>
+
+  {{#if people.events.length}}
+    <h3>Attending Events: </h3>
+    <ul>
+      {{#each people.events}}
+        <li><a class= "eventslistinpeople" href="/events/{{this.id}}">{{this.title}}</a></li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  <a href="http://35.160.217.149:3000/people">Go Back To People List</a>
+
+</article>
